@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: product-service
+  cloud:
+    config:
+      enabled: false
+  jpa:
+    hibernate:
+      ddl-auto: none
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    open-in-view: false
+  datasource:
+    url: jdbc:postgresql://localhost:5432/product-service
+    username: ENC(CnvFR8x8ksDC6dsWfh8a+e8yKWbYcaBOIAQ6/pcpMgMFULpA7ktm1OLBmKlhBnh9KJ05s3PRX70sdsMLQdaGVQ==)
+    password: ENC(a77ufMaHUPkKAIcou3H15Bu/Jn0k8SuD8kIINpGDjZpqdD3R/2hW+5m+8rI2ZFOl)
+    driverClassName: org.postgresql.Driver
+server:
+  port: 8000
