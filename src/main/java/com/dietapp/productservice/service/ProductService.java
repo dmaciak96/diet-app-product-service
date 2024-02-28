@@ -2,14 +2,14 @@ package com.dietapp.productservice.service;
 
 import com.dietapp.productservice.model.ProductDto;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
-import java.util.Optional;
 import java.util.UUID;
 
 public interface ProductService {
-    Page<ProductDto> getAll(int pageNumber, int pageSize);
+    Page<ProductDto> getAll(Pageable pageable);
 
-    Optional<ProductDto> getById(UUID id);
+    ProductDto getById(UUID id);
 
     ProductDto create(ProductDto productDto);
 

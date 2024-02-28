@@ -8,6 +8,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.Version;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -16,7 +17,10 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
+import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
@@ -47,6 +51,15 @@ public class Product {
     @OneToMany(cascade = CascadeType.ALL,
             mappedBy = "product")
     private Set<CustomProperty> properties = new HashSet<>();
+
+    @Version
+    private int version;
+
+    @CreationTimestamp
+    private Instant createdDate;
+
+    @UpdateTimestamp
+    private Instant lastUpdatedDate;
 
     public void addProperty(CustomProperty customProperty) {
         if (properties == null) {

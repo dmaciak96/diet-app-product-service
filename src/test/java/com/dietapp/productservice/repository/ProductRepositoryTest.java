@@ -95,6 +95,14 @@ class ProductRepositoryTest {
         assertTrue(customPropertiesRepository.findAllByProductId(savedProduct.getId()).isEmpty());
     }
 
+    @Test
+    void shouldSetVersionAndTimestamps() {
+        var savedProduct = productRepository.saveAndFlush(createProduct());
+        assertEquals(0, savedProduct.getVersion());
+        assertNotNull(savedProduct.getCreatedDate());
+        assertNotNull(savedProduct.getLastUpdatedDate());
+    }
+
     private Product createProduct() {
         var product = Product.builder()
                 .type(ProductType.FRUITS_AND_VEGETABLES)
