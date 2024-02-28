@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: product-service
+  cloud:
+    config:
+      enabled: false
+  jpa:
+    hibernate:
+      ddl-auto: none
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    open-in-view: false
+  datasource:
+    url: jdbc:tc:postgresql:15:///test_database
+    username: user
+    password: password
+#    driverClassName: org.postgresql.Driver
+server:
+  port: 8000
