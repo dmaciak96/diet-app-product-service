@@ -3,6 +3,7 @@ package com.dietapp.productservice.mapper;
 import com.dietapp.productservice.model.CustomProperty;
 import com.dietapp.productservice.model.Product;
 import com.dietapp.productservice.model.ProductDto;
+import com.dietapp.productservice.model.ProductHttpResponse;
 import org.mapstruct.AfterMapping;
 import org.mapstruct.Builder;
 import org.mapstruct.Mapper;
@@ -47,4 +48,6 @@ public interface ProductMapper {
         product.setProperties(propertiesSet);
         return product;
     }
+
+    ProductHttpResponse toHttpResponse(ProductDto productDto);
 }

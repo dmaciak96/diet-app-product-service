@@ -8,6 +8,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
 
+import java.time.Instant;
 import java.util.Map;
 import java.util.UUID;
 
@@ -24,6 +25,8 @@ class ProductMapperTest {
     private static final double POTATO_KCAL = 73.0;
     private static final UUID POTATO_UUID = UUID.randomUUID();
     private static final UUID PROPERTY_UUID = UUID.randomUUID();
+    private static final Instant CREATED_DATE = Instant.now();
+    private static final Instant UPDATE_DATE = Instant.now();
 
     private ProductMapper productMapper;
 
@@ -65,6 +68,21 @@ class ProductMapperTest {
         assertEquals(KCAL_AFTER_BOILED_VALUE, properties.get(KCAL_AFTER_BOILED));
     }
 
+    @Test
+    void shouldMapDtoToHttpResponse() {
+        var result = productMapper.toHttpResponse(createProductDto());
+        assertEquals(POTATO_UUID, result.id());
+        assertEquals(POTATO, result.name());
+        assertEquals(POTATO_KCAL, result.kcal());
+        assertEquals(ProductType.FRUITS_AND_VEGETABLES, result.type());
+        assertEquals(CREATED_DATE, result.createdDate());
+        assertEquals(UPDATE_DATE, result.lastUpdatedDate());
+
+        var properties = result.properties();
+        assertTrue(properties.containsKey(KCAL_AFTER_BOILED));
+        assertEquals(KCAL_AFTER_BOILED_VALUE, properties.get(KCAL_AFTER_BOILED));
+    }
+
     private Product createProduct() {
         var product = Product.builder()
                 .id(POTATO_UUID)
@@ -90,6 +108,8 @@ class ProductMapperTest {
                 .kcal(POTATO_KCAL)
                 .type(ProductType.FRUITS_AND_VEGETABLES)
                 .properties(Map.of(KCAL_AFTER_BOILED, KCAL_AFTER_BOILED_VALUE))
+                .createdDate(CREATED_DATE)
+                .lastUpdatedDate(UPDATE_DATE)
                 .build();
     }
 }
