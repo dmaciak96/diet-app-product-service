@@ -14,5 +14,10 @@ spring:
     username: ENC(CnvFR8x8ksDC6dsWfh8a+e8yKWbYcaBOIAQ6/pcpMgMFULpA7ktm1OLBmKlhBnh9KJ05s3PRX70sdsMLQdaGVQ==)
     password: ENC(a77ufMaHUPkKAIcou3H15Bu/Jn0k8SuD8kIINpGDjZpqdD3R/2hW+5m+8rI2ZFOl)
     driverClassName: org.postgresql.Driver
+
 server:
   port: 8000
+
+kafka:
+  bootstrap-servers: localhost:9092
+  notification-topic-name: notification.service

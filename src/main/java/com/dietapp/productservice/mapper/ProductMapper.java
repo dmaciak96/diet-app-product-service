@@ -1,9 +1,11 @@
 package com.dietapp.productservice.mapper;
 
+import com.dietapp.productservice.model.CreateProductMessage;
 import com.dietapp.productservice.model.CustomProperty;
 import com.dietapp.productservice.model.Product;
 import com.dietapp.productservice.model.ProductDto;
 import com.dietapp.productservice.model.ProductHttpResponse;
+import com.dietapp.productservice.model.UpdateProductMessage;
 import org.mapstruct.AfterMapping;
 import org.mapstruct.Builder;
 import org.mapstruct.Mapper;
@@ -31,6 +33,10 @@ public interface ProductMapper {
                 .properties(propertiesMap)
                 .build();
     }
+
+    ProductDto toDto(CreateProductMessage createProductMessage);
+
+    ProductDto toDto(UpdateProductMessage updateProductMessage);
 
     @Mapping(target = "properties", ignore = true)
     Product toEntity(ProductDto dto);

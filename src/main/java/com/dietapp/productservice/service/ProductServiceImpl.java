@@ -50,7 +50,6 @@ public class ProductServiceImpl implements ProductService {
         var savedProduct = productRepository.saveAndFlush(product);
         log.info("Product {} was saved (id: {})", savedProduct.getName(), savedProduct.getId());
 
-        //TODO: Send message to RabbitMQ
         return productMapper.toDto(savedProduct);
     }
 
@@ -62,8 +61,6 @@ public class ProductServiceImpl implements ProductService {
         }
         productRepository.deleteById(id);
         log.info("Product {} was removed", id);
-
-        //TODO: Send message to RabbitMQ
     }
 
     @Override
@@ -80,7 +77,6 @@ public class ProductServiceImpl implements ProductService {
         var updatedProduct = productRepository.saveAndFlush(productToUpdate);
         log.info("Product {} was updated (id: {})", updatedProduct.getName(), updatedProduct.getId());
 
-        //TODO: Send message to RabbitMQ
         return productMapper.toDto(updatedProduct);
     }
 
