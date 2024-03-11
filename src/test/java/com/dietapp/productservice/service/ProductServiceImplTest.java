@@ -34,6 +34,9 @@ class ProductServiceImplTest {
     private static final UUID PRODUCT_ID_ONE = UUID.randomUUID();
     private static final UUID PRODUCT_ID_TWO = UUID.randomUUID();
     private static final UUID PRODUCT_ID_THREE = UUID.randomUUID();
+    private static final UUID PRODUCT_ID_NOT_EXISTS = UUID.randomUUID();
+    private static final String POTATO = "Potato";
+
     private ProductService productService;
     private ProductRepository productRepository;
 
@@ -59,6 +62,7 @@ class ProductServiceImplTest {
                     .properties(Set.of())
                     .build();
         });
+
     }
 
     @Test
@@ -85,19 +89,20 @@ class ProductServiceImplTest {
 
     @Test
     void deleteShouldRemoveElement() {
-        productService.delete(PRODUCT_ID_ONE);
-        verify(productRepository).deleteById(PRODUCT_ID_ONE);
+        var deletedProductName = productService.delete(PRODUCT_ID_ONE);
+        verify(productRepository).delete(any(Product.class));
+        assertEquals(POTATO, deletedProductName);
     }
 
     @Test
     void deleteShouldThrowNotFoundException() {
-        assertThrows(ProductNotFoundException.class, () -> productService.delete(PRODUCT_ID_THREE));
+        assertThrows(ProductNotFoundException.class, () -> productService.delete(PRODUCT_ID_NOT_EXISTS));
     }
 
     @Test
     void shouldCreateProductWithVersionCreationTimestampAndLastUpdate() {
         productService.create(ProductDto.builder()
-                .name("Potato")
+                .name(POTATO)
                 .kcal(73.0)
                 .type(ProductType.FRUITS_AND_VEGETABLES)
                 .properties(Map.of())
@@ -116,14 +121,17 @@ class ProductServiceImplTest {
         return List.of(Product.builder()
                         .id(PRODUCT_ID_ONE)
                         .properties(new HashSet<>())
+                        .name(POTATO)
                         .build(),
                 Product.builder()
                         .id(PRODUCT_ID_TWO)
                         .properties(new HashSet<>())
+                        .name(POTATO)
                         .build(),
                 Product.builder()
                         .id(PRODUCT_ID_THREE)
                         .properties(new HashSet<>())
+                        .name(POTATO)
                         .build());
     }
 

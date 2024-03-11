@@ -54,13 +54,13 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void delete(UUID id) {
+    public String delete(UUID id) {
         log.info("Removing product (id: {})", id);
-        if (!productRepository.existsById(id)) {
-            throw new ProductNotFoundException("Product not found by id %s".formatted(id));
-        }
-        productRepository.deleteById(id);
-        log.info("Product {} was removed", id);
+        var product = productRepository.findById(id).orElseThrow(() ->
+                new ProductNotFoundException("Product not found by id %s".formatted(id)));
+        productRepository.delete(product);
+        log.info("Product {} was removed (id: {})", product.getName(), id);
+        return product.getName();
     }
 
     @Override

@@ -68,9 +68,9 @@ public class ProductKafkaMessageHandler {
     public void deleteProduct(DeleteProductMessage message) {
         log.debug("Incoming Kafka Message: {}", message);
         try {
-            productService.delete(message.id());
+            var removedProductName = productService.delete(message.id());
             kafkaTemplate.send(notificationTopic, NotificationMessage.builder()
-                    .message("Product was removed (%s)".formatted(message.id()))
+                    .message("Product was removed (%s)".formatted(removedProductName))
                     .code(NotificationCode.PRODUCT_REMOVED)
                     .build());
         } catch (Exception e) {
