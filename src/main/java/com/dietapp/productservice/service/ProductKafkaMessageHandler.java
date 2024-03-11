@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.annotation.KafkaHandler;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
@@ -19,7 +20,7 @@ import java.util.Map;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-@KafkaListener(id = "ProductService", topics = "product.service", groupId = "product.service")
+@KafkaListener(id = "ProductService", topics = "${kafka.topic-name}", groupId = "${kafka.group-id}")
 public class ProductKafkaMessageHandler {
     private static final String NOTIFICATION_PRODUCT_PROPERTY_KEY = "product";
 
@@ -31,7 +32,7 @@ public class ProductKafkaMessageHandler {
     private String notificationTopic;
 
     @KafkaHandler
-    public void createProduct(CreateProductMessage message) {
+    public void createProduct(@Payload CreateProductMessage message) {
         log.debug("Incoming Kafka Message: {}", message);
         try {
             var createdProduct = productService.create(productMapper.toDto(message));
@@ -48,7 +49,7 @@ public class ProductKafkaMessageHandler {
     }
 
     @KafkaHandler
-    public void updateProduct(UpdateProductMessage message) {
+    public void updateProduct(@Payload UpdateProductMessage message) {
         log.debug("Incoming Kafka Message: {}", message);
         try {
             var updatedProduct = productService.update(message.id(), productMapper.toDto(message));
@@ -65,7 +66,7 @@ public class ProductKafkaMessageHandler {
     }
 
     @KafkaHandler
-    public void deleteProduct(DeleteProductMessage message) {
+    public void deleteProduct(@Payload DeleteProductMessage message) {
         log.debug("Incoming Kafka Message: {}", message);
         try {
             var removedProductName = productService.delete(message.id());

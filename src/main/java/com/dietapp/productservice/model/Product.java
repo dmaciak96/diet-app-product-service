@@ -49,7 +49,8 @@ public class Product {
     private ProductType type;
 
     @OneToMany(cascade = CascadeType.ALL,
-            mappedBy = "product")
+            mappedBy = "product",
+            orphanRemoval = true)
     private Set<CustomProperty> properties = new HashSet<>();
 
     @Version

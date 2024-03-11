@@ -13,6 +13,14 @@ spring:
     url: jdbc:tc:postgresql:15:///test_database
     username: user
     password: password
-#    driverClassName: org.postgresql.Driver
+  kafka:
+    consumer:
+      auto-offset-reset: latest
 server:
   port: 8000
+
+kafka:
+  bootstrap-servers: localhost:9092
+  notification-topic-name: notification.service.test
+  topic-name: product.service.test
+  group-id: product.service.group.test

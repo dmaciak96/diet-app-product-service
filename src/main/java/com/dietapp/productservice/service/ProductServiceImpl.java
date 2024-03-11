@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Map;
 import java.util.Set;
@@ -26,6 +27,7 @@ public class ProductServiceImpl implements ProductService {
     private final ProductMapper productMapper;
 
     @Override
+    @Transactional
     public Page<ProductDto> getAll(Pageable pageable) {
         log.info("Get all products (Page number: {}, Page size: {})", pageable.getPageNumber(), pageable.getPageSize());
         return productRepository.findAll(pageable)
@@ -33,6 +35,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    @Transactional
     public ProductDto getById(UUID id) {
         log.info("Get product by id {}", id);
         var product = productRepository.findById(id);
@@ -41,6 +44,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    @Transactional
     public ProductDto create(ProductDto productDto) {
         log.info("Saving new product (name: {}, kcal: {}, type: {})",
                 productDto.name(), productDto.kcal(), productDto.type());
@@ -54,6 +58,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    @Transactional
     public String delete(UUID id) {
         log.info("Removing product (id: {})", id);
         var product = productRepository.findById(id).orElseThrow(() ->
@@ -64,6 +69,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    @Transactional
     public ProductDto update(UUID id, ProductDto productDto) {
         log.info("Updating product (name: {}, id: {})", productDto.name(), id);
         var productToUpdate = productRepository.findById(id)
@@ -72,7 +78,8 @@ public class ProductServiceImpl implements ProductService {
         productToUpdate.setName(productDto.name());
         productToUpdate.setKcal(productDto.kcal());
         productToUpdate.setType(productDto.type());
-        productToUpdate.setProperties(mapToCustomProperties(productDto.properties(), productToUpdate));
+        productToUpdate.getProperties().clear();
+        productToUpdate.getProperties().addAll(mapToCustomProperties(productDto.properties(), productToUpdate));
 
         var updatedProduct = productRepository.saveAndFlush(productToUpdate);
         log.info("Product {} was updated (id: {})", updatedProduct.getName(), updatedProduct.getId());
