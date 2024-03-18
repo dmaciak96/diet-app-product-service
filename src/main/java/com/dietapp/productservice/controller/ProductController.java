@@ -37,4 +37,10 @@ public class ProductController {
         var productDto = productService.getById(productId);
         return ResponseEntity.ok(productMapper.toHttpResponse(productDto));
     }
+
+    @GetMapping
+    public ResponseEntity<ProductHttpResponse> getByName(@RequestParam String name) {
+        return ResponseEntity
+                .ok(productMapper.toHttpResponse(productService.getByName(name)));
+    }
 }

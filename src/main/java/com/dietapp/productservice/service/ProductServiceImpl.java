@@ -44,6 +44,14 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public ProductDto getByName(String name) {
+        log.info("Get product by name {}", name);
+        var product = productRepository.findByName(name);
+        return productMapper.toDto(product.orElseThrow(() ->
+                new ProductNotFoundException("Product not found by name %s".formatted(name))));
+    }
+
+    @Override
     @Transactional
     public ProductDto create(ProductDto productDto) {
         log.info("Saving new product (name: {}, kcal: {}, type: {})",

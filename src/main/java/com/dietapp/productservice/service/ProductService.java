@@ -11,6 +11,8 @@ public interface ProductService {
 
     ProductDto getById(UUID id);
 
+    ProductDto getByName(String name);
+
     ProductDto create(ProductDto productDto);
 
     ProductDto update(UUID id, ProductDto productDto);
